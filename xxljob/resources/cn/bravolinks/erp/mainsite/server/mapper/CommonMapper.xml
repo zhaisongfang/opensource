@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bravolinks.erp.pm.dao.CommonDao">
+
+  <!--通用删除-->
+  <delete id="delete" parameterType="map">
+    DELETE FROM ${tablename} where ${key}=#{value}
+  </delete>
+
+  <!--通用更新-->
+  <update id="update" parameterType="map">
+    update ${tablename} set
+    <foreach collection="data.keys" item="key" separator=",">
+      <if test="null!=data[key]">
+        ${key}=#{data[${key}]}
+      </if>
+    </foreach>
+    where 1=1
+    <foreach collection="conditions.keys" item="key" separator="and" open="and">
+      <if test="null!=conditions[key]">
+        ${key}=#{conditions[${key}]}
+      </if>
+    </foreach>
+  </update>
+
+  <!--查询表字段信息-->
+  <select id="getTableFieldInfo" parameterType="string" resultType="map">
+    select COLUMN_NAME,DATA_TYPE from user_tab_cols WHERE TABLE_NAME=#{0} ORDER BY COLUMN_ID
+  </select>
+
+  <!--获取表字段-->
+  <select id="getTableField" parameterType="string" resultType="string">
+    select COLUMN_NAME from user_tab_cols WHERE TABLE_NAME=#{0} ORDER BY COLUMN_ID
+  </select>
+
+  <!--通用插入方法-->
+  <insert id="insert" parameterType="map">
+    <selectKey keyProperty="id" resultType="integer" order="BEFORE">
+      select ${seq}.nextval from dual
+    </selectKey>
+    insert into ${tablename}
+    (id,
+      <foreach collection="map.keys" item="key" separator=",">
+          ${key}
+      </foreach>
+    )
+    values
+    (#{id},
+      <foreach collection="map.values" item="value" separator=",">
+          #{value}
+      </foreach>
+    )
+  </insert>
+
+  <!--一个条件的情况下，获取map返回值-->
+  <select id="getResultMapByCondition" parameterType="map" resultType="map">
+    select
+    <foreach collection="fields" item="field" separator=",">
+      ${field}
+    </foreach>
+    from ${tablename} where
+    ${con1}=#{val1}
+  </select>
+
+  <!--两个条件的情况下，获取map返回值-->
+  <select id="getResultMapByConditions" parameterType="map" resultType="map">
+    select
+    <foreach collection="fields" item="field" separator=",">
+      ${field}
+    </foreach>
+    from ${tablename}
+    where 1=1
+    <foreach collection="conditions.keys" item="key" separator="and" open="and">
+      <if test="null!=conditions[key]">
+        ${key}=#{conditions[${key}]}
+      </if>
+    </foreach>
+  </select>
+
+  <!--查询一个字段,根据多个条件-->
+  <select id="getResultObjectByConditions" parameterType="map" resultType="object">
+    select ${field} from ${tablename}
+    where 1=1
+    <foreach collection="conditions.keys" item="key" separator="and" open="and">
+      <if test="null!=conditions[key]">
+        ${key}=#{conditions[${key}]}
+      </if>
+    </foreach>
+  </select>
+
+  <!--查询一个字段-->
+  <select id="getResultObjectByCondition" parameterType="map" resultType="object">
+    select ${field} from ${tablename} where ${con} = #{val}
+  </select>
+
+</mapper>

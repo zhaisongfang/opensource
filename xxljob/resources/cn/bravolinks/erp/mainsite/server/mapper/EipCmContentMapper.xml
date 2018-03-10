@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bravolinks.erp.mainsite.server.dao.EipCmContentDao" >
+  <resultMap id="BaseResultMap" type="EipCmContent" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORGNO" property="orgno" jdbcType="OTHER" />
+    <result column="BINDID" property="bindid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEUSER" property="createuser" jdbcType="OTHER" />
+    <result column="UPDATEDATE" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UPDATEUSER" property="updateuser" jdbcType="OTHER" />
+    <result column="WORKFLOWID" property="workflowid" jdbcType="DECIMAL" />
+    <result column="WORKFLOWSTEPID" property="workflowstepid" jdbcType="DECIMAL" />
+    <result column="ISEND" property="isend" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="OTHER" />
+    <result column="PREPICTURE" property="prepicture" jdbcType="OTHER" />
+    <result column="RELEASEDATE" property="releasedate" jdbcType="TIMESTAMP" />
+    <result column="RELEASEMAN" property="releaseman" jdbcType="OTHER" />
+    <result column="RELEASEDEPARTMENT" property="releasedepartment" jdbcType="OTHER" />
+    <result column="SUBTITLE" property="subtitle" jdbcType="OTHER" />
+    <result column="SUBPICTURE" property="subpicture" jdbcType="OTHER" />
+    <result column="CONTENT" property="content" jdbcType="OTHER" />
+    <result column="ISCLOSE" property="isclose" jdbcType="OTHER" />
+    <result column="ISTALK" property="istalk" jdbcType="OTHER" />
+    <result column="ARCHIVES" property="archives" jdbcType="OTHER" />
+    <result column="SECURITYLIST" property="securitylist" jdbcType="OTHER" />
+    <result column="YDFW" property="ydfw" jdbcType="OTHER" />
+    <result column="ISCOPY" property="iscopy" jdbcType="OTHER" />
+    <result column="ZYTS" property="zyts" jdbcType="OTHER" />
+    <result column="ISZD" property="iszd" jdbcType="OTHER" />
+    <result column="BTJC" property="btjc" jdbcType="OTHER" />
+    <result column="SOURCE" property="source" jdbcType="OTHER" />
+    <result column="DISPLAYTITLE" property="displaytitle" jdbcType="OTHER" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORGNO, BINDID, CREATEDATE, CREATEUSER, UPDATEDATE, UPDATEUSER, WORKFLOWID, WORKFLOWSTEPID, 
+    ISEND, TITLE, PREPICTURE, RELEASEDATE, RELEASEMAN, RELEASEDEPARTMENT, SUBTITLE, SUBPICTURE, 
+    CONTENT, ISCLOSE, ISTALK, ARCHIVES, SECURITYLIST, YDFW, ISCOPY, ZYTS, ISZD, BTJC, 
+    SOURCE, DISPLAYTITLE, DEPTID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from EIP_CM_CONTENT
+    where ID = #{id,jdbcType=DECIMAL} and isend=1 and ISCLOSE='否'
+  </select>
+  <!--查询cms数据，分页-->
+  <select id="selectCM" resultMap="BaseResultMap" parameterType="map">
+    select * from (
+    select rownum rn,a.* from (
+    select a.* from EIP_CM_CONTENT a INNER JOIN EIP_CM_CHANNELCONT b on a.id=b.CONTENTID and b.CHANNELID=#{channelid}
+    and b.isend=1 and a.isend=1 and a.ISCLOSE='否' order by a.CREATEDATE desc
+    ) a) where rn&gt;#{min} and rn&lt;=#{max}
+  </select>
+  <!--查询flag2-->
+  <select id="selectFlag2" parameterType="map" resultType="integer">
+    select id from sys_business_metadata_map where metadata_id=
+    (select id from SYS_BUSINESS_METADATA where entity_name=#{0}) and field_name=#{1}
+  </select>
+</mapper>

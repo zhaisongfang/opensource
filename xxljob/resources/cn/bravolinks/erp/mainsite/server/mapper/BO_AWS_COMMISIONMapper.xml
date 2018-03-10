@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bravolinks.erp.mainsite.server.dao.boAwsCommisionDao" >
+  <resultMap id="BaseResultMap" type="cn.bravolinks.erp.mainsite.server.model.BO_AWS_COMMISION" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORGNO" property="orgno" jdbcType="OTHER" />
+    <result column="BINDID" property="bindid" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="CREATEUSER" property="createuser" jdbcType="OTHER" />
+    <result column="UPDATEDATE" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UPDATEUSER" property="updateuser" jdbcType="OTHER" />
+    <result column="WORKFLOWID" property="workflowid" jdbcType="DECIMAL" />
+    <result column="WORKFLOWSTEPID" property="workflowstepid" jdbcType="DECIMAL" />
+    <result column="ISEND" property="isend" jdbcType="DECIMAL" />
+    <result column="UID1" property="uid1" jdbcType="OTHER" />
+    <result column="UIDNAME1" property="uidname1" jdbcType="OTHER" />
+    <result column="COMPANYNAME1" property="companyname1" jdbcType="OTHER" />
+    <result column="DPTPATH1" property="dptpath1" jdbcType="OTHER" />
+    <result column="DATEFROM" property="datefrom" jdbcType="TIMESTAMP" />
+    <result column="DATETO" property="dateto" jdbcType="TIMESTAMP" />
+    <result column="MEMO" property="memo" jdbcType="OTHER" />
+    <result column="STATUS" property="status" jdbcType="OTHER" />
+    <result column="COMMISIONTYPE" property="commisiontype" jdbcType="DECIMAL" />
+    <result column="RECIPIENT" property="recipient" jdbcType="OTHER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORGNO, BINDID, CREATEDATE, CREATEUSER, UPDATEDATE, UPDATEUSER, WORKFLOWID, WORKFLOWSTEPID, 
+    ISEND, UID1, UIDNAME1, COMPANYNAME1, DPTPATH1, DATEFROM, DATETO, MEMO, STATUS, COMMISIONTYPE, 
+    RECIPIENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from BO_AWS_COMMISION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+   <select id="selectBOAWByBindid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+  <!--   <include refid="Base_Column_List" /> -->
+    from BO_AWS_COMMISION
+    where BINDID = #{0}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from BO_AWS_COMMISION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.bravolinks.erp.mainsite.server.model.BO_AWS_COMMISION" >
+        <selectKey resultType="integer" order="BEFORE" keyProperty="id">
+            select BO_AWS_COMMISION_SEQ.nextval from dual
+        </selectKey>
+    insert into BO_AWS_COMMISION (ID,ORGNO, BINDID, 
+      CREATEDATE, CREATEUSER, UPDATEDATE, 
+      UPDATEUSER, WORKFLOWID, WORKFLOWSTEPID, 
+      ISEND, UID1, UIDNAME1, 
+      COMPANYNAME1, DPTPATH1, DATEFROM, 
+      DATETO, MEMO, STATUS, 
+      COMMISIONTYPE, RECIPIENT)
+    values (#{id}, #{orgno}, #{bindid}, 
+      #{createdate}, #{createuser}, sysdate, 
+      #{updateuser}, #{workflowid}, #{workflowstepid}, 
+      #{isend}, #{uid1}, #{uidname1}, 
+      #{companyname1}, #{dptpath1}, #{datefrom}, 
+      #{dateto}, #{memo}, #{status}, 
+      #{commisiontype}, #{recipient})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.bravolinks.erp.mainsite.server.model.BO_AWS_COMMISION" >
+    insert into BO_AWS_COMMISION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orgno != null" >
+        ORGNO,
+      </if>
+      <if test="bindid != null" >
+        BINDID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="createuser != null" >
+        CREATEUSER,
+      </if>
+      <if test="updatedate != null" >
+        UPDATEDATE,
+      </if>
+      <if test="updateuser != null" >
+        UPDATEUSER,
+      </if>
+      <if test="workflowid != null" >
+        WORKFLOWID,
+      </if>
+      <if test="workflowstepid != null" >
+        WORKFLOWSTEPID,
+      </if>
+      <if test="isend != null" >
+        ISEND,
+      </if>
+      <if test="uid1 != null" >
+        UID1,
+      </if>
+      <if test="uidname1 != null" >
+        UIDNAME1,
+      </if>
+      <if test="companyname1 != null" >
+        COMPANYNAME1,
+      </if>
+      <if test="dptpath1 != null" >
+        DPTPATH1,
+      </if>
+      <if test="datefrom != null" >
+        DATEFROM,
+      </if>
+      <if test="dateto != null" >
+        DATETO,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="commisiontype != null" >
+        COMMISIONTYPE,
+      </if>
+      <if test="recipient != null" >
+        RECIPIENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orgno != null" >
+        #{orgno,jdbcType=OTHER},
+      </if>
+      <if test="bindid != null" >
+        #{bindid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=OTHER},
+      </if>
+      <if test="workflowid != null" >
+        #{workflowid,jdbcType=DECIMAL},
+      </if>
+      <if test="workflowstepid != null" >
+        #{workflowstepid,jdbcType=DECIMAL},
+      </if>
+      <if test="isend != null" >
+        #{isend,jdbcType=DECIMAL},
+      </if>
+      <if test="uid1 != null" >
+        #{uid1,jdbcType=OTHER},
+      </if>
+      <if test="uidname1 != null" >
+        #{uidname1,jdbcType=OTHER},
+      </if>
+      <if test="companyname1 != null" >
+        #{companyname1,jdbcType=OTHER},
+      </if>
+      <if test="dptpath1 != null" >
+        #{dptpath1,jdbcType=OTHER},
+      </if>
+      <if test="datefrom != null" >
+        #{datefrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateto != null" >
+        #{dateto,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=OTHER},
+      </if>
+      <if test="commisiontype != null" >
+        #{commisiontype,jdbcType=DECIMAL},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bravolinks.erp.mainsite.server.model.BO_AWS_COMMISION" >
+    update BO_AWS_COMMISION
+    <set >
+      <if test="orgno != null" >
+        ORGNO = #{orgno,jdbcType=OTHER},
+      </if>
+      <if test="bindid != null" >
+        BINDID = #{bindid,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        CREATEUSER = #{createuser,jdbcType=OTHER},
+      </if>
+      <if test="updatedate != null" >
+        UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UPDATEUSER = #{updateuser,jdbcType=OTHER},
+      </if>
+      <if test="workflowid != null" >
+        WORKFLOWID = #{workflowid,jdbcType=DECIMAL},
+      </if>
+      <if test="workflowstepid != null" >
+        WORKFLOWSTEPID = #{workflowstepid,jdbcType=DECIMAL},
+      </if>
+      <if test="isend != null" >
+        ISEND = #{isend,jdbcType=DECIMAL},
+      </if>
+      <if test="uid1 != null" >
+        UID1 = #{uid1,jdbcType=OTHER},
+      </if>
+      <if test="uidname1 != null" >
+        UIDNAME1 = #{uidname1,jdbcType=OTHER},
+      </if>
+      <if test="companyname1 != null" >
+        COMPANYNAME1 = #{companyname1,jdbcType=OTHER},
+      </if>
+      <if test="dptpath1 != null" >
+        DPTPATH1 = #{dptpath1,jdbcType=OTHER},
+      </if>
+      <if test="datefrom != null" >
+        DATEFROM = #{datefrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateto != null" >
+        DATETO = #{dateto,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=OTHER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=OTHER},
+      </if>
+      <if test="commisiontype != null" >
+        COMMISIONTYPE = #{commisiontype,jdbcType=DECIMAL},
+      </if>
+      <if test="recipient != null" >
+        RECIPIENT = #{recipient,jdbcType=OTHER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.bravolinks.erp.mainsite.server.model.BO_AWS_COMMISION" >
+    update BO_AWS_COMMISION
+    set ORGNO = #{orgno,jdbcType=OTHER},
+      BINDID = #{bindid,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      CREATEUSER = #{createuser,jdbcType=OTHER},
+      UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
+      UPDATEUSER = #{updateuser,jdbcType=OTHER},
+      WORKFLOWID = #{workflowid,jdbcType=DECIMAL},
+      WORKFLOWSTEPID = #{workflowstepid,jdbcType=DECIMAL},
+      ISEND = #{isend,jdbcType=DECIMAL},
+      UID1 = #{uid1,jdbcType=OTHER},
+      UIDNAME1 = #{uidname1,jdbcType=OTHER},
+      COMPANYNAME1 = #{companyname1,jdbcType=OTHER},
+      DPTPATH1 = #{dptpath1,jdbcType=OTHER},
+      DATEFROM = #{datefrom,jdbcType=TIMESTAMP},
+      DATETO = #{dateto,jdbcType=TIMESTAMP},
+      MEMO = #{memo,jdbcType=OTHER},
+      STATUS = #{status,jdbcType=OTHER},
+      COMMISIONTYPE = #{commisiontype,jdbcType=DECIMAL},
+      RECIPIENT = #{recipient,jdbcType=OTHER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
